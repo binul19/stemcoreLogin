@@ -29,9 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $stmt->bind_param("sssi", $first_name, $last_name, $email, $user_id);
 
     if ($stmt->execute() === true) {
-        echo "User updated successfully";
+        $message= "User updated successfully";
+        $message_class = "success";
     } else {
-        echo "Error updating user: " . $stmt->error;
+        $message ="Error updating user: " . $stmt->error;
+        $message_class = "error";
     }
 
     $stmt->close();
@@ -41,3 +43,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
 
 $conn->close();
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .message {
+            font-size: 18px;
+            color: #333;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message <?php echo $message_class; ?>">
+            <?php echo $message; ?>
+        </div>
+    </div>
+</body>
+</html>
